@@ -35,7 +35,7 @@ public class MovePlayer : MonoBehaviour
             else _oldHorizontal = Mathf.Lerp(_oldHorizontal, _newHorizontal, 3f * Time.deltaTime);
 
             Vector3 vectorMove = new Vector3(1f - Mathf.Abs(_oldHorizontal) / 1.2f, 0f, -_oldHorizontal/1.3f);
-            Rb.velocity = vectorMove * 15f;
+            Rb.velocity = vectorMove * 20f;
 
             newDifferent = _oldHorizontal - _newHorizontal;
             if (Mathf.Abs(newDifferent) > 0.5f) _jetDownMove = true;
