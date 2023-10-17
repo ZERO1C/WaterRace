@@ -2,50 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WaterSystem;
+using Zenject;
+
 public class MovePlayer : MonoBehaviour
 {
-    public BuoyantObject BuoyantObject;
-    public DynamicJoystick DynamicJoystick;
+
     public Transform TransformJet;
-    public Rigidbody Rb;
     public GameObject Effect;
     public GameObject RightEffect;
     public GameObject LeftEffect;
 
+    private Rigidbody _rb;
+    private BuoyantObject _buoyantObject;
+    private DynamicJoystick _dynamicJoystick;
+
     private float _oldHorizontal;
     private float _newHorizontal;
-    private float waterLineNow;
-    private float waterLineRot;
+    private float _waterLineNow;
+    private float _waterLineRot;
 
     private bool _jetDownMove = false;
-    private float newDifferent;
-    private void Awake()
+    private float _newDifferent;
+
+
+    // to do замінити на ініціалізацію в фабриці у випадку створення
+
+    [Inject]
+    private void Init()
     {
-        Rb = GetComponent<Rigidbody>();
+        _buoyantObject = GetComponent<BuoyantObject>();
+        _rb = GetComponent<Rigidbody>();
         StartCoroutine(MoveJet());
         StartCoroutine(WaterLine());
     }
+
+    public void BindDynamicJoystick( DynamicJoystick dynamicJoystick)
+    {
+        _dynamicJoystick = dynamicJoystick;
+    }
+
+
     private IEnumerator MoveJet()
     {
         float oldDifferent = 0;
+        yield return new WaitForFixedUpdate();
+
         while (true)
         {
-            _newHorizontal = DynamicJoystick.Horizontal;
+            _newHorizontal = _dynamicJoystick.Horizontal; 
             if (_newHorizontal == 0f) _oldHorizontal = Mathf.Lerp(_oldHorizontal, _newHorizontal, 2f * Time.deltaTime);
             else _oldHorizontal = Mathf.Lerp(_oldHorizontal, _newHorizontal, 3f * Time.deltaTime);
 
             Vector3 vectorMove = new Vector3(1f - Mathf.Abs(_oldHorizontal) / 1.2f, 0f, -_oldHorizontal/1.3f);
-            Rb.velocity = vectorMove * 20f;
+            _rb.velocity = vectorMove * 20f;
 
-            newDifferent = _oldHorizontal - _newHorizontal;
-            if (Mathf.Abs(newDifferent) > 0.5f) _jetDownMove = true;
-            if (newDifferent > 0.5f) RightEffect.SetActive(true);
-            else if (newDifferent < -0.5f) LeftEffect.SetActive(true);
+            _newDifferent = _oldHorizontal - _newHorizontal;
+            if (Mathf.Abs(_newDifferent) > 0.5f) _jetDownMove = true;
+            if (_newDifferent > 0.5f) RightEffect.SetActive(true);
+            else if (_newDifferent < -0.5f) LeftEffect.SetActive(true);
 
 
-            oldDifferent = Mathf.Lerp(oldDifferent, newDifferent, 4 * Time.deltaTime);
-            Vector3 rotationJet = new Vector3(Mathf.Clamp(-100f * vectorMove.x * Mathf.Clamp(waterLineRot + 0.1f,0,1), -40f, 0f), 90f + _oldHorizontal * 80f, oldDifferent * 40f);
-            Debug.Log(newDifferent);
+            oldDifferent = Mathf.Lerp(oldDifferent, _newDifferent, 4f * Time.deltaTime);
+            Vector3 rotationJet = new Vector3(Mathf.Clamp(-100f * vectorMove.x * Mathf.Clamp(_waterLineRot + 0.1f,0,1), -40f, 0f), 90f + _oldHorizontal * 80f, oldDifferent * 40f);
             TransformJet.rotation = Quaternion.Euler(rotationJet);
             yield return new WaitForFixedUpdate();
         }
@@ -58,25 +76,25 @@ public class MovePlayer : MonoBehaviour
 
         while (true)
         {
-            while (waterLineNow > -0.2f)
+            while (_waterLineNow > -0.2f)
             {
-                waterLineNow -= waterLineStep * 4f;
-                waterLineRot -= waterLineStep * 5f;
+                _waterLineNow -= waterLineStep * 4f;
+                _waterLineRot -= waterLineStep * 5f;
                 yield return new WaitForFixedUpdate();
-                BuoyantObject.waterLevelOffset = waterLineNow;
+                _buoyantObject.waterLevelOffset = _waterLineNow;
 
 
             }
             Effect.SetActive(true);
             yield return new WaitForFixedUpdate();
 
-            while (waterLineNow < 0.3f)
+            while (_waterLineNow < 0.3f)
             {
-                if (newDifferent < 0.1f)
+                if (_newDifferent < 0.1f)
                 {
-                    waterLineNow += waterLineStep * 1f;
-                    waterLineRot = waterLineNow;
-                    BuoyantObject.waterLevelOffset = waterLineNow;
+                    _waterLineNow += waterLineStep * 1f;
+                    _waterLineRot = _waterLineNow;
+                    _buoyantObject.waterLevelOffset = _waterLineNow;
                 }
                 yield return new WaitForFixedUpdate();
 

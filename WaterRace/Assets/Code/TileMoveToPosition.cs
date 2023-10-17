@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class TileMoveToPosition : MonoBehaviour
 {
+    // to do розбить на два класи Tile і TileMove
     private Transform _myTransform;
-    public void Init()
+    public void Init(FactoryMap factoryMap)
     {
         _myTransform = transform;
+        GetComponentInChildren<TileOnTarget>().Init(factoryMap, gameObject);
         StartCoroutine(MoveToPosition());
     }
     private IEnumerator MoveToPosition()

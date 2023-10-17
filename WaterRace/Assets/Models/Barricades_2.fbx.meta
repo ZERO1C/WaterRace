@@ -3,7 +3,17 @@ guid: 7c55d55be0e4b034aba5f9b59c796c28
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: barricades_Wood
+    second: {fileID: 2100000, guid: 6419fa0da84756e428b41e27fee8d11b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: barricades_Wood_Dark
+    second: {fileID: 2100000, guid: 75ad6ff87c790e341b44ab543bbea8b8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
