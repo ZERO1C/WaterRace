@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 1034143945}
   - component: {fileID: 1034143944}
   - component: {fileID: 1034143943}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Terrain2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1034143945
 Transform:

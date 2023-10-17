@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 363287577}
   - component: {fileID: 363287576}
   - component: {fileID: 363287575}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 838423439183246904, guid: 299b56a26765fcf4f9ca7b273c61b2f7,
         type: 3}
       propertyPath: m_Name
-      value: Tile 1
+      value: Tile 1 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2611176720557554356, guid: 299b56a26765fcf4f9ca7b273c61b2f7,
         type: 3}
