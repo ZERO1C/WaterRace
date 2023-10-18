@@ -66,7 +66,7 @@ public class ParticleObjectOnWater : MonoBehaviour
         _myTransform.localPosition = _startLocalPosition;
         _myTransform.localRotation = _startLocalRotation;
         _buoyantObject.enabled = false;
-
+        
 
         _boxCollider.enabled = false;
         _rb.useGravity = false;
