@@ -19,7 +19,6 @@ namespace Code.Pooling
             FastAccess = new Dictionary<string, PoolObjects>();
             foreach (var container in PoolObjects)
             {
-                Debug.Log(container);
                 for (int i = 0; i < container.PoolAmount; i++)
                 {
                     var instantiate = Instantiate(container.Example, new Vector3(-99f, -99f, -99f), Quaternion.identity, transform);
@@ -36,8 +35,6 @@ namespace Code.Pooling
 
         public GameObject ObjectActivation(string ID, Vector3 position, Quaternion rotation)
         {
-            Debug.Log(ID);
-            Debug.Log(FastAccess);
             if (FastAccess.ContainsKey(ID))
             {
                 if (FastAccess[ID].Index >= FastAccess[ID].TransformContainers.Count)
